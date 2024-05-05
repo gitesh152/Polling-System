@@ -1,5 +1,6 @@
 const express = require("express"); //express instance
 const app = express(); //creating app using express
+app.disable("x-powered-by");
 const PORT = process.env.PORT || 8000; //using PORT 8000
 const db = require("./config/mongoose"); //using custom mongoose configuration
 const bodyParser = require("body-parser"); //using body-parser

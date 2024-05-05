@@ -30,7 +30,7 @@ module.exports.getAll = async (req, res) => {
 module.exports.create = async (req, res) => {
     try {
         const { title, options } = req.body;
-        let question = await Question.create({ title, options });
+        let question = await Question.create({ title: title.toString(), options: Array.from(options) });
         if (question) {
             console.log(`Created question : ${question}`);
             return res.json(200, { message: `Raised a Question : ${question.title}` });

@@ -1,7 +1,7 @@
 //Mongoose Configuration
 const mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://gitesh152:helloworld@cluster1.eirfrai.mongodb.net/polling_system_api_db"
+  process.env.db
 );
 const db = mongoose.connection;
 

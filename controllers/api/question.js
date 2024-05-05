@@ -29,7 +29,8 @@ module.exports.getAll = async (req, res) => {
 //controller to create question
 module.exports.create = async (req, res) => {
     try {
-        let question = await Question.create(req.body);
+        const { title, options } = req.body;
+        let question = await Question.create({ title, options });
         if (question) {
             console.log(`Created question : ${question}`);
             return res.json(200, { message: `Raised a Question : ${question.title}` });
@@ -50,8 +51,10 @@ module.exports.createOption = async (req, res) => {
             console.log(`Could not find question ID!`);
             return res.json(401, { message: 'Could not find question ID!' });
         }
-        let id = mongoose.Types.ObjectId();
-        let option = await Option.create({ _id: id, text: req.body.text, link_to_vote: `http://localhost:8000/options/${id}/add_vote`, question: req.params.id });
+        const id = mongoose.Types.ObjectId();
+        const text = req.body.text;
+        const question = req.params.id;
+        let option = await Option.create({ _id: id, text, link_to_vote: `http://localhost:8000/options/${id}/add_vote`, question });
         if (option) {
             let pushedoption = await Question.findByIdAndUpdate(req.params.id, { $push: { "options": id } })
             console.log(`Created option : ${pushedoption}`);
@@ -74,7 +77,7 @@ module.exports.delete = async (req, res) => {
             return res.json(401, { message: 'Could not find question ID!' });
         }
         let deletedQuestion = await Question.findByIdAndDelete(req.params.id);
-        let deletedQuestionOptions = await Option.deleteMany({ question: req.params.id });
+        await Option.deleteMany({ question: req.params.id });
         if (deletedQuestion) {
             console.log(`Deleted Question : ${deletedQuestion.title}`);
             return res.json(200, { message: `Deleted Question : ${deletedQuestion.title}` });

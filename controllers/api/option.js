@@ -10,8 +10,7 @@ module.exports.delete = async (req, res) => {
             return res.json(401, { message: 'Could not find option ID!' });
         }
         let deletedOption = await Option.findByIdAndDelete(req.params.id);
-        console.log(deletedOption);
-        // let deletedOptionInQuestion=await Question.deleteMany({question:req.params.id});
+
         await Question.findByIdAndUpdate(deletedOption.question, { $pull: { "options": deletedOption.id } });
         if (deletedOption) {
             console.log(`Deleted Option : ${deletedOption.text}`);

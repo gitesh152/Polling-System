@@ -1,9 +1,9 @@
-const express=require('express');
-const router=express.Router();
-const homeController=require('../controllers/home_controller');
+const express = require('express');
+const router = express.Router();
+const homeController = require('../controllers/home_controller');
 
-router.get('/',homeController.home);
+router.get('/', homeController.home);
 
-router.use('/api',require('./api'));
+router.use('/api', require('./api'));
 
-module.exports=router;
+module.exports = router;

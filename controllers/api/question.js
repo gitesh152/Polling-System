@@ -52,8 +52,8 @@ module.exports.createOption = async (req, res) => {
             return res.json(401, { message: 'Could not find question ID!' });
         }
         const id = mongoose.Types.ObjectId();
-        const text = req.body.text;
-        const question = req.params.id;
+        const text = req.body.text.toString();
+        const question = req.params.id.toString();
         let option = await Option.create({ _id: id, text, link_to_vote: `http://localhost:8000/options/${id}/add_vote`, question });
         if (option) {
             let pushedoption = await Question.findByIdAndUpdate(req.params.id, { $push: { "options": id } })
